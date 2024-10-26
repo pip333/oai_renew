@@ -7,21 +7,30 @@
 </head>
 <body>
     <h1>OAIFree 自动登录</h1>
-    <div id="status">登录状态：未登录</div>
+    <div id="status">登录状态：登录中  请稍等... ...</div>
 
     <script>
-        const REFRESH_TOKEN = '3FyIj3Rrg2gcGBs30_EQXVaSsuiOSEpQ-zpyJem6XivO0'; // 替换为你的 refresh token
         const TOKEN_URL = 'https://token.oaifree.com/api/auth/refresh';
         const SHARE_TOKEN_URL = 'https://chat.oaifree.com/token/register';
         const LOGIN_URL = 'https://new.oaifree.com/auth/login_share';
 
+        async function getRefreshToken() {
+            const response = await fetch('/api/token');
+            if (!response.ok) {
+                throw new Error('Failed to get refresh token');
+            }
+            const data = await response.json();
+            return data.refreshToken;
+        }
+
         async function getAccessToken() {
+            const refreshToken = await getRefreshToken();
             const response = await fetch(TOKEN_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `refresh_token=${encodeURIComponent(REFRESH_TOKEN)}`,
+                body: `refresh_token=${encodeURIComponent(refreshToken)}`,
             });
 
             if (response.ok) {
