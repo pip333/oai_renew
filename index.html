@@ -111,6 +111,29 @@
 
         // 执行自动登录
         autoLogin();
+        import { useEffect, useState } from 'react';
+
+        function Counter() {
+          const [count, setCount] = useState(0);
+
+          useEffect(() => {
+            // 获取当前计数
+            fetch('/api/counter')
+              .then(response => response.json())
+              .then(data => setCount(data.count));
+    
+            // 发送计数请求，增加计数
+            fetch('/api/counter', { method: 'POST' });
+          }, []);
+
+          return (
+            <div>
+              <p>页面访问次数: {count}</p>
+            </div>
+          );
+        }
+
+        export default Counter;
     </script>
 </body>
 </html>
