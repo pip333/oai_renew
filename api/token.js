@@ -4,7 +4,7 @@ export default function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   
-  const refreshToken = process.env.REFRESH_TOKEN;
+  const refreshToken = process.env.EAU_REFRESH_TOKEN;
   if (!refreshToken) {
     return res.status(500).json({ error: 'Refresh token not configured' });
   }
